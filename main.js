@@ -19,7 +19,11 @@ var api = {};
 
 */
 api.fanOut = function(input, fn) {
-  // TODO: your implementation here.
+  const result = [];
+  for (let i = 0, iLen = input.length; i < iLen; i++) {
+      result.push(fn(input[i]));
+  }
+  return result;
 };
 
 
@@ -46,9 +50,23 @@ api.fanOut = function(input, fn) {
 
  */
 api.funnel = function(input, fn, startValue){
-  // TODO: your implementation here.
-  return 0;
+  let acc = startValue;
+
+  for (let i = 0, iLen = input.length; i < iLen; i++) {
+      acc = fn(acc, input[i]);
+  }
+
+  return acc;
 };
+
+// recursive version
+// api.funnel2 = function(input, fn, startValue){
+//   if (input.length === 0) {
+//       return startValue;
+//   } else {
+//       return api.funnel2(input.slice(1), fn, fn(startValue, input[0]));
+//   }
+// };
 
 
 
@@ -72,8 +90,17 @@ api.funnel = function(input, fn, startValue){
 
  */
 api.distill = function(input, fn){
-  // TODO: your implementation here.
-  return [];
+  const result = [];
+
+  for (let i = 0, iLen = input.length; i < iLen; i++) {
+      let currentItem = input[i];
+
+      if (fn(currentItem) === true) {
+          result.push(currentItem);
+      }
+  }
+
+  return result;
 };
 
 
@@ -95,8 +122,14 @@ api.distill = function(input, fn){
 
  */
 api.numberOfChars = function(input){
-  // TODO: your implementation here
-  return 0;
+  let result = 0;
+
+  // for each word
+  for (let i = 0, iLen = input.length; i < iLen; i++) {
+      result += input[i].length;
+  }
+
+  return result;
 };
 
 
@@ -118,9 +151,27 @@ api.numberOfChars = function(input){
  - You may not use any external libraries
 
  */
-api.numberOfCertainChars= function(input, c){
-// TODO: your implementation here
-  return 0;
+api.numberOfCertainChars= function(input, c) {
+  let numChars = 0;
+
+  // Loop over the words
+  for (let i = 0, iLen = input.length; i < iLen; i++) {
+      // Split the current string into an array
+      const currentWordArray = input[i].split('');
+
+      // Loop over the characters in the current word (now an array)
+      for (let j = 0, jLen = currentWordArray.length; j < jLen; j++) {
+          if (currentWordArray[j] === c) {
+              numChars++;
+          }
+      }
+  }
+  return numChars;
+};
+
+
+api.numberOfCertainChars2 = function(input, c) {
+
 };
 
 module.exports = api;
